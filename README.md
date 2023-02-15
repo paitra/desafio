@@ -5,7 +5,7 @@ Para a estruturação do projeto,será utilizado arquitetura MVC (Model-View-Con
 Segue um passo a passo para a implementação das páginas:
 
 - [ ] Criação da página de cadastro (View):
-    - [ ] Criar um arquivo HTML para a página de cadastro e outro para a página de listagem.
+    - [x] Criar um arquivo HTML para a página de cadastro e outro para a página de listagem.
     - [ ] Incluir o menu lateral com os links para as duas páginas e um sistema de navegação estrutural.
     - [ ] Criar um formulário com os campos descritos, seguindo as regras de validação e as especificações de formato de dados e apresentação.
     - [ ] Adicionar botões de salvar e cancelar e definir suas funcionalidades.
