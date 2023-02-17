@@ -65,62 +65,60 @@
             </nav>
             <!-- Conteudo Pagina -->
             <h1>Formulário de Cadastro de Produto</h1>
-            <form>
-                <div class="form-group">
-                    <label for="nome">Nome do item:</label>
-                    <input type="text" class="form-control" id="nome" name="nome" maxlength="50" pattern="[A-Za-z]+"
-                        required>
-                </div>
+    <form>
+      <div class="form-group">
+        <label for="nome">Nome do item:</label>
+        <input type="text" class="form-control" id="nome" name="nome" maxlength="50" pattern="[A-Za-z]+" required>
+      </div>
 
-                <div class="form-group">
-                    <label for="unidade">Unidade de medida:</label>
-                    <select class="form-control" id="unidade" name="unidade" required>
-                        <option value="kg">kg</option>
-                        <option value="g">g</option>
-                        <option value="L">L</option>
-                        <option value="ml">ml</option>
-                    </select>
-                </div>
+      <div class="form-group">
+        <label for="unidade">Unidade de medida:</label>
+        <select class="form-control" id="unidade" name="unidade" required>
+          <option value="kg">kg</option>
+          <option value="g">g</option>
+          <option value="L">L</option>
+          <option value="ml">ml</option>
+        </select>
+      </div>
 
-                <div class="form-group">
-                    <label for="quantidade">Quantidade:</label>
-                    <input type="number" class="form-control" id="quantidade" name="quantidade">
-                </div>
+      <div class="form-group">
+        <label for="quantidade">Quantidade:</label>
+        <input type="number" class="form-control" id="quantidade" name="quantidade">
+      </div>
 
-                <div class="form-group">
-                    <label for="preco">Preço:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">R$</span>
-                        </div>
-                        <input type="text" class="form-control" id="preco" name="preco" pattern="^\d+(,\d{1,2})?$"
-                            required>
-                    </div>
-                </div>
+      <div class="form-group">
+        <label for="preco">Preço:</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">R$</span>
+          </div>
+          <input type="text" class="form-control" id="preco" name="preco" pattern="^\d+(,\d{1,2})?$" required>
+        </div>
+      </div>
 
-                <div class="form-group">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="perecivel" name="perecivel" required>
-                        <label class="form-check-label" for="perecivel">Produto perecível</label>
-                    </div>
-                </div>
+      <div class="form-group">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="perecivel" name="perecivel" required>
+          <label class="form-check-label" for="perecivel">Produto perecível</label>
+        </div>
+      </div>
 
-                <div class="form-group">
-                    <label for="validade">Data de validade:</label>
-                    <input type="date" class="form-control" id="validade" name="validade" pattern="\d{2}\/\d{2}\/\d{4}"
-                        onchange="checkValidity()" disabled>
-                </div>
+      <div class="form-group">
+        <label for="validade">Data de validade:</label>
+        <input type="date" class="form-control" id="validade" name="validade" pattern="\d{2}\/\d{2}\/\d{4}" 
+               onchange="checkValidity()" >
+      </div>
+         
+      <div class="form-group">
+        <label for="fabricacao">Data de fabricação:</label>
+        <input type="date" class="form-control" id="fabricacao" name="fabricacao" pattern="\d{2}\/\d{2}\/\d{4}" 
+               max="2030-12-31" required onchange="checkValidity()">
 
-                <div class="form-group">
-                    <label for="fabricacao">Data de fabricação:</label>
-                    <input type="date" class="form-control" id="fabricacao" name="fabricacao"
-                        pattern="\d{2}\/\d{2}\/\d{4}" max="2030-12-31" required onchange="checkValidity()">
-                </div>
+            </div>
 
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </form>
-
-
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </form>
+      
         </div>
         <script src="js/form.js"></script>
         <!-- jQuery CDN - Slim version (=without AJAX) -->

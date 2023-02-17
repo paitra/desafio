@@ -1,17 +1,5 @@
-const form = document.querySelector('form');
-const produtosTableBody = document.getElementById('produtos-table-body');
-
-// Função para checar a validade do produto
-function checkValidity() {
-  const validade = new Date(document.getElementById('validade').value);
-  const hoje = new Date();
-  if (validade < hoje) {
-    alert('Atenção: o produto está vencido!');
-  }
-}
-
-// Função para salvar os dados no localStorage
-function saveData() {
+// Função para salvar os dados do formulário no LocalStorage
+function salvarProduto() {
   const nome = document.getElementById('nome').value;
   const unidade = document.getElementById('unidade').value;
   const quantidade = document.getElementById('quantidade').value;
@@ -20,10 +8,6 @@ function saveData() {
   const validade = document.getElementById('validade').value;
   const fabricacao = document.getElementById('fabricacao').value;
 
-  // Recupera os dados já cadastrados no localStorage
-  const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
-
-  // Cria um objeto com os dados do novo produto
   const produto = {
     nome,
     unidade,
@@ -34,10 +18,13 @@ function saveData() {
     fabricacao
   };
 
-  // Adiciona o novo produto ao array de produtos
+  // Verifica se já há produtos salvos no LocalStorage
+  let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+
+  // Adiciona o novo produto no array
   produtos.push(produto);
 
-  // Salva o array atualizado no localStorage
+  // Salva o array atualizado no LocalStorage
   localStorage.setItem('produtos', JSON.stringify(produtos));
 
   // Limpa o formulário
@@ -93,6 +80,7 @@ function carregarProdutos() {
     cellAcoes.appendChild(btnExcluir);
   });
 }
+
 // Função para carregar os dados do produto selecionado no formulário de edição
 function carregarProdutoParaEditar(index) {
   let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
@@ -128,17 +116,17 @@ function atualizarProduto(index) {
     fabricacao
   };
 
- // Verifica se já há produtos salvos no LocalStorage
- let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+  // Verifica se já há produtos salvos no LocalStorage
+  let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
 
- // Atualiza o produto na posição do array correspondente ao índice recebido
- produtos[index] = produto;
+  // Atualiza o produto na posição do array correspondente ao índice recebido
+  produtos[index] = produto;
 
- // Salva o array atualizado no LocalStorage
- localStorage.setItem('produtos', JSON.stringify(produtos));
+  // Salva o array atualizado no LocalStorage
+  localStorage.setItem('produtos', JSON.stringify(produtos));
 
- // Atualiza a tabela com os dados atualizados
- carregarProdutos();
+  // Atualiza a tabela com os dados atualizados
+  carregarProdutos();
 }
 
 // Função para excluir o produto selecionado do LocalStorage
@@ -155,52 +143,28 @@ function excluirProduto(index) {
   // Atualiza a tabela com os dados atualizados
   carregarProdutos();
 }
+
 // Carrega os produtos salvos no LocalStorage e exibe na tabela ao carregar
 document.addEventListener('DOMContentLoaded', function () {
   carregarProdutos();
 });
 
-// // Configura o evento para o botão de adicionar
-// const btnAdicionar = document.getElementById('btn-adicionar');
-// btnAdicionar.addEventListener('click', function () {
-//   adicionarProduto();
-// });
-
-// // Configura o evento para o botão de editar
-// const btnEditar = document.getElementById('btn-editar');
-// btnEditar.addEventListener('click', function () {
-//   const index = document.getElementById('index-editar').value;
-//   atualizarProduto(index);
-// });
-
-// // Configura o evento para o botão de excluir
-// const btnExcluir = document.getElementById('btn-excluir');
-// btnExcluir.addEventListener('click', function () {
-//   const index = document.getElementById('index-excluir').value;
-//   excluirProduto(index);
-// });
-
-// Evento disparado ao enviar o formulário
-form.addEventListener('submit', (
-
-  event) => {
-  event.preventDefault();
-
-  // Verifica a validade do produto, se necessário
-  const perecivel = document.getElementById('perecivel').checked;
-  if (perecivel) {
-    checkValidity();
-  }
-
-  // Salva os dados no localStorage
-  saveData();
-
-  // Exibe os dados na tabela
-  displayData();
-
-  // Limpa o formulário
-  form.reset();
+// Configura o evento para o botão de adicionar
+const btnAdicionar = document.getElementById('btn-adicionar');
+btnAdicionar.addEventListener('click', function () {
+  adicionarProduto();
 });
 
-// Exibe os dados salvos na tabela ao carregar a página
-displayData();
+// Configura o evento para o botão de editar
+const btnEditar = document.getElementById('btn-editar');
+btnEditar.addEventListener('click', function () {
+  const index = document.getElementById('index-editar').value;
+  atualizarProduto(index);
+});
+
+// Configura o evento para o botão de excluir
+const btnExcluir = document.getElementById('btn-excluir');
+btnExcluir.addEventListener('click', function () {
+  const index = document.getElementById('index-excluir').value;
+  excluirProduto(index);
+});
