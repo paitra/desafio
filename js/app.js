@@ -91,6 +91,52 @@ function carregarProdutos() {
   }
   $('input[name=edit]').remove();
 }
+// Função para carregar os dados do produto selecionado no formulário de edição
+function editar(index) {
+  let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+  let produto = produtos[index];
+  $('#form-action').trigger('click');
+  // document.getElementById('index-editar').value = index;
+  document.getElementById('nome').value = produto.nome;
+  document.getElementById('unidade').value = produto.unidade;
+  document.getElementById('quantidade').value = produto.quantidade;
+  document.getElementById('preco').value = produto.preco;
+  document.getElementById('perecivel').checked = produto.perecivel;
+  document.getElementById('validade').value = produto.validade;
+  document.getElementById('fabricacao').value = produto.fabricacao;
+  $('form').append('<input type=hidden name=edit value=' + index + '>');
+}
+// Função para atualizar os dados do produto editado no LocalStorage
+function atualizar(index) {
+
+  const nome = document.getElementById('nome').value;
+  const unidade = document.getElementById('unidade').value;
+  const quantidade = document.getElementById('quantidade').value;
+  const preco = document.getElementById('preco').value;
+  const perecivel = document.getElementById('perecivel').checked;
+  const validade = document.getElementById('validade').value;
+  const fabricacao = document.getElementById('fabricacao').value;
+
+  const produto = {
+    nome,
+    unidade,
+    quantidade,
+    preco,
+    perecivel,
+    validade,
+    fabricacao
+  };
+
+  // Verifica se já há produtos salvos no LocalStorage
+  let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+
+  // Atualiza o produto na posição do array correspondente ao índice recebido
+  produtos[index] = produto;
+  console.log(produtos[index]);
+
+  // Salva o array atualizado no LocalStorage
+  localStorage.setItem('produtos', JSON.stringify(produtos));
+}
 
 // Evento disparado ao enviar o formulário
 $(document).on('submit', 'form', (event) => {
