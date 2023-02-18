@@ -14,7 +14,21 @@ $(document).ready(function () {
   });
   carregarProdutos();
 });
+function formReset() {
+  $('#reset').trigger('click');
+}
 
+// Função para excluir o produto selecionado do LocalStorage
+function excluirProduto(index) {
+  // Verifica se já há produtos salvos no LocalStorage
+  let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+  // Remove o produto na posição do array correspondente ao índice recebido
+  produtos.splice(index, 1);
+  // Salva o array atualizado no LocalStorage
+  localStorage.setItem('produtos', JSON.stringify(produtos));
+  // Atualiza a tabela com os dados atualizados
+  carregarProdutos();
+}
 
 
 // Função para salvar os dados no localStorage
@@ -137,18 +151,35 @@ function atualizar(index) {
   // Salva o array atualizado no LocalStorage
   localStorage.setItem('produtos', JSON.stringify(produtos));
 }
-
+// acão edite
+$(document).on('click', '.btn-edit', function () {
+  editar($(this).data('index'));
+});
+// acão delete mais confimação da ação
+$(document).on('click', '.btn-delete', function () {
+  Swal.fire({
+    title: 'Deseja realmente excluir o produto?',
+    showCancelButton: true,
+    confirmButtonText: 'Sim',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      excluirProduto($(this).data('index'));
+      Swal.fire('Removido!', '', 'success');
+    }
+  });
+});
 // Evento disparado ao enviar o formulário
 $(document).on('submit', 'form', (event) => {
   event.preventDefault();
 
- // Salva os dados no localStorage
- if ($('input[name=edit]').length > 0) {
-  atualizar($('input[name=edit]').val());
-} else {
-  inserir();
-}
-carregarProdutos();
-//exibe a listagem
-$('#list-action').trigger('click');
+  // Salva os dados no localStorage
+  if ($('input[name=edit]').length > 0) {
+    atualizar($('input[name=edit]').val());
+  } else {
+    inserir();
+  }
+  carregarProdutos();
+  //exibe a listagem
+  $('#list-action').trigger('click');
 });
