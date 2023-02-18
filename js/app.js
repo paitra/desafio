@@ -172,6 +172,16 @@ $(document).on('click', '.btn-delete', function () {
 // Evento disparado ao enviar o formulário
 $(document).on('submit', 'form', (event) => {
   event.preventDefault();
+   // Verifica a validade do produto, se necessário
+   const perecivel = document.getElementById('perecivel').checked;
+   if (perecivel) {
+     const validade = new Date(document.getElementById('validade').value);
+     const hoje = new Date();
+     if (validade < hoje) {
+       Swal.fire('O produto está vencido!')
+       return false;
+     }
+   }
 
   // Salva os dados no localStorage
   if ($('input[name=edit]').length > 0) {
