@@ -68,7 +68,23 @@ function carregarProdutos() {
 
       row.insertCell().textContent = produto.validade || '-';
       row.insertCell().textContent = produto.fabricacao || '-';
-;
+      // Cria os botões de ação (Editar e Excluir)
+      let cellAcoes = row.insertCell();
+
+      let btnEditar = document.createElement('button');
+      btnEditar.setAttribute('type', 'button');
+      btnEditar.setAttribute('class', 'btn btn-sm btn-warning btn-edit mr-1');
+      btnEditar.setAttribute('data-index', index);
+      btnEditar.textContent = 'Editar';
+
+      let btnExcluir = document.createElement('button');
+      btnExcluir.setAttribute('type', 'button');
+      btnExcluir.setAttribute('class', 'btn btn-sm btn-danger btn-delete');
+      btnExcluir.setAttribute('data-index', index);
+      btnExcluir.textContent = 'Excluir';
+
+      cellAcoes.appendChild(btnEditar);
+      cellAcoes.appendChild(btnExcluir);
     });
   } else {
     tabelaProdutos.innerHTML = '<tr><td colspan="8">Nenhum produto cadastrado.</td></tr>';
