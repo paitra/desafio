@@ -12,6 +12,8 @@ $(document).ready(function () {
     $('#' + $(this).data('display')).removeClass('d-none');
     formReset();
   });
+  //formatação do campo preço
+  $("#preco").maskMoney({allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
   carregarProdutos();
 });
 function formReset() {
