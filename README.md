@@ -1,8 +1,9 @@
  Para a tarefa de construir uma aplicação web para cadastro de itens, serão necessárias as seguintes etapas:
  
-- [ ] Desenvolvimento das duas páginas principais:
-	- [ ] Página de cadastro de itens
-	- [ ] Página de listagem de itens
+- [x] Desenvolvimento das duas páginas principais:
+	- [x] Página de cadastro de itens
+	- [x] Página de listagem de itens
+	![image](https://user-images.githubusercontent.com/63022256/219970909-0315edce-dc3e-462f-8e64-47f69cd9b1f8.png)
 - [ ] Implementação de um menu lateral, localizado à esquerda em ambas as páginas:
 	- [ ] Com links para cada uma das páginas principais
 	- [ ] Com sistema de navegação estrutural
