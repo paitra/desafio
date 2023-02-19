@@ -13,12 +13,48 @@ $(document).ready(function () {
     formReset();
   });
   //formatação do campo preço
-  $("#preco").maskMoney({allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
+  $("#preco").maskMoney({ allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
   carregarProdutos();
+
 });
 function formReset() {
   $('#reset').trigger('click');
 }
+// Ação mediada
+function onChangeUnidadeMedida() {
+  var quantidadeInput = document.getElementById("quantidade");
+  var unidade = document.getElementById("unidade").value;
+  var medidaAddon = document.getElementById("medida-addon");
+  
+  switch (unidade) {
+    case "Lt (Litro)":
+      quantidadeInput.setAttribute("type", "number");
+      quantidadeInput.setAttribute("step", "1");
+      quantidadeInput.setAttribute("max", "9999");
+      quantidadeInput.setAttribute("min", "1");
+      medidaAddon.innerHTML = "Lt";
+      break;
+    case "KG (Quilograma)":
+      quantidadeInput.setAttribute("type", "number");
+      quantidadeInput.setAttribute("step", "0.01");
+      quantidadeInput.setAttribute("max", "9999.99");
+      quantidadeInput.setAttribute("min", "0.01");
+      medidaAddon.innerHTML = "kg";
+      break;
+    case "Un (Unidade)":
+      quantidadeInput.setAttribute("type", "number");
+      quantidadeInput.setAttribute("step", "1");
+      quantidadeInput.setAttribute("max", "9999");
+      quantidadeInput.setAttribute("min", "1");
+      medidaAddon.innerHTML = "Un";
+      break;
+    default:
+      quantidadeInput.setAttribute("type", "text");
+      quantidadeInput.setAttribute("step", "");
+      quantidadeInput.setAttribute("max", "");
+      quantidadeInput.setAttribute("min", "");
+      medidaAddon.innerHTML ='';
+    }};
 
 // Função para excluir o produto selecionado do LocalStorage
 function excluirProduto(index) {
@@ -36,12 +72,13 @@ function excluirProduto(index) {
 // Função para salvar os dados no localStorage
 function inserir() {
   const nome = document.getElementById('nome').value;
-  const unidade = document.getElementById('unidade').value;
   const quantidade = document.getElementById('quantidade').value;
+  const unidade = document.getElementById('unidade').value;
   const preco = document.getElementById('preco').value;
   const perecivel = document.getElementById('perecivel').checked;
-  const validade = document.getElementById('validade').value;
   const fabricacao = document.getElementById('fabricacao').value;
+  const validade = document.getElementById('validade').value;
+
 
   // Recupera os dados já cadastrados no localStorage
   const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
@@ -49,12 +86,13 @@ function inserir() {
   // Cria um objeto com os dados do novo produto
   const produto = {
     nome,
-    unidade,
     quantidade,
+    unidade,
     preco,
     perecivel,
-    validade,
-    fabricacao
+    fabricacao,
+    validade
+
   };
 
   // Adiciona o novo produto ao array de produtos
@@ -77,13 +115,13 @@ function carregarProdutos() {
       let row = tabelaProdutos.insertRow();
 
       row.insertCell().textContent = produto.nome;
-      row.insertCell().textContent = produto.unidade;
       row.insertCell().textContent = produto.quantidade || '-';
+      row.insertCell().textContent = produto.unidade;
       row.insertCell().textContent = 'R$ ' + produto.preco;
       row.insertCell().textContent = (produto.perecivel == true ? 'sim' : 'não');
-
-      row.insertCell().textContent = produto.validade || '-';
       row.insertCell().textContent = produto.fabricacao || '-';
+      row.insertCell().textContent = produto.validade || '-';
+
       // Cria os botões de ação (Editar e Excluir)
       let cellAcoes = row.insertCell();
 
@@ -114,34 +152,39 @@ function editar(index) {
   $('#form-action').trigger('click');
   // document.getElementById('index-editar').value = index;
   document.getElementById('nome').value = produto.nome;
-  document.getElementById('unidade').value = produto.unidade;
   document.getElementById('quantidade').value = produto.quantidade;
+  document.getElementById('unidade').value = produto.unidade;
   document.getElementById('preco').value = produto.preco;
   document.getElementById('perecivel').checked = produto.perecivel;
-  document.getElementById('validade').value = produto.validade;
   document.getElementById('fabricacao').value = produto.fabricacao;
+  document.getElementById('validade').value = produto.validade;
+
   $('form').append('<input type=hidden name=edit value=' + index + '>');
 }
 // Função para atualizar os dados do produto editado no LocalStorage
 function atualizar(index) {
 
   const nome = document.getElementById('nome').value;
-  const unidade = document.getElementById('unidade').value;
   const quantidade = document.getElementById('quantidade').value;
+  const unidade = document.getElementById('unidade').value;
   const preco = document.getElementById('preco').value;
   const perecivel = document.getElementById('perecivel').checked;
-  const validade = document.getElementById('validade').value;
   const fabricacao = document.getElementById('fabricacao').value;
+  const validade = document.getElementById('validade').value;
+
 
   const produto = {
     nome,
-    unidade,
     quantidade,
+    unidade,
     preco,
     perecivel,
-    validade,
-    fabricacao
+    fabricacao,
+    validade
+
   };
+
+  
 
   // Verifica se já há produtos salvos no LocalStorage
   let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
@@ -174,16 +217,16 @@ $(document).on('click', '.btn-delete', function () {
 // Evento disparado ao enviar o formulário
 $(document).on('submit', 'form', (event) => {
   event.preventDefault();
-   // Verifica a validade do produto, se necessário
-   const perecivel = document.getElementById('perecivel').checked;
-   if (perecivel) {
-     const validade = new Date(document.getElementById('validade').value);
-     const hoje = new Date();
-     if (validade < hoje) {
-       Swal.fire('O produto está vencido!')
-       return false;
-     }
-   }
+  // Verifica a validade do produto, se necessário
+  const perecivel = document.getElementById('perecivel').checked;
+  if (perecivel) {
+    const validade = new Date(document.getElementById('validade').value);
+    const hoje = new Date();
+    if (validade < hoje) {
+      Swal.fire('O produto está vencido!')
+      return false;
+    }
+  }
 
   // Salva os dados no localStorage
   if ($('input[name=edit]').length > 0) {
@@ -195,3 +238,4 @@ $(document).on('submit', 'form', (event) => {
   //exibe a listagem
   $('#list-action').trigger('click');
 });
+

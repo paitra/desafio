@@ -79,19 +79,26 @@
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
-                  <label for="unidade">Unidade de medida:</label>
-                  <select class="form-control" id="unidade" name="unidade" required>
-                    <option value="kg">kg</option>
-                    <option value="g">g</option>
-                    <option value="L">L</option>
-                    <option value="ml">ml</option>
+                  <label for="input-medida">Unidade de medida</label>
+                  <select class="form-control" id="unidade" name="unidade" onchange="onChangeUnidadeMedida()">
+                    <option value="" disabled selected>-- Selecione uma unidade --</option>
+                    <option value="Lt (Litro)">Lt (Litro)</option>
+                    <option value="KG (Quilograma)">KG (Quilograma)</option>
+                    <option value="Un (Unidade)">Un (Unidade)</option>
                   </select>
                 </div>
               </div>
               <div class="col-4">
                 <div class="form-group">
-                  <label for="quantidade">Quantidade:</label>
-                  <input type="number" class="form-control" id="quantidade" name="quantidade">
+                  <label for="input-quantidade">Quantidade</label>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="quantidade" name="quantidade"
+                      placeholder="Digite a quantidade" aria-label="Digite a quantidade"
+                      aria-describedby="medida-addon">
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="medida-addon"></span>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="col-4">
@@ -114,17 +121,18 @@
             </div>
             <div class="row">
               <div class="col-6">
-                <div class="form-group">
-                  <label for="validade">Data de validade:</label>
-                  <input type="date" class="form-control" id="validade" name="validade" pattern="\d{2}\/\d{2}\/\d{4}">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="fabricacao">Data de fabricação:</label>
+                    <input type="date" class="form-control" id="fabricacao" name="fabricacao"
+                      pattern="\d{2}\/\d{2}\/\d{4}" max="2030-12-31" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="validade">Data de validade:</label>
+                    <input type="date" class="form-control" id="validade" name="validade" pattern="\d{2}\/\d{2}\/\d{4}">
+                  </div>
                 </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <label for="fabricacao">Data de fabricação:</label>
-                  <input type="date" class="form-control" id="fabricacao" name="fabricacao"
-                    pattern="\d{2}\/\d{2}\/\d{4}" max="2030-12-31" required>
-                </div>
+
               </div>
             </div>
             <button type="submit" class="btn btn-primary">Salvar</button>
@@ -136,12 +144,12 @@
             <thead>
               <tr>
                 <th>Produto</th>
-                <th>Medida</th>
                 <th>Qtd</th>
+                <th>Medida</th>                
                 <th>Preço</th>
                 <th>Perecível</th>
-                <th>Validade</th>
                 <th>Fabricação</th>
+                <th>Validade</th>
                 <th>Ações</th>
               </tr>
             </thead>
