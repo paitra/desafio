@@ -11,40 +11,43 @@ $(document).ready(function () {
     $('#' + $(this).data('hidden')).addClass('d-none');
     $('#' + $(this).data('display')).removeClass('d-none');
     formReset();
+
   });
+  function formReset() {
+    $('#reset').trigger('click');
+
+  }
   //formatação do campo preço
   $("#preco").maskMoney({ allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
   carregarProdutos();
 
 });
-function formReset() {
-  $('#reset').trigger('click');
-}
+
 // Ação mediada
 function onChangeUnidadeMedida() {
   var quantidadeInput = document.getElementById("quantidade");
   var unidade = document.getElementById("unidade").value;
   var medidaAddon = document.getElementById("medida-addon");
-  
+
   switch (unidade) {
     case "Lt (Litro)":
       quantidadeInput.setAttribute("type", "number");
       quantidadeInput.setAttribute("step", "1");
-      quantidadeInput.setAttribute("max", "9999");
+      quantidadeInput.setAttribute("max", "999");
       quantidadeInput.setAttribute("min", "1");
       medidaAddon.innerHTML = "Lt";
       break;
     case "KG (Quilograma)":
       quantidadeInput.setAttribute("type", "number");
       quantidadeInput.setAttribute("step", "0.01");
-      quantidadeInput.setAttribute("max", "9999.99");
+      quantidadeInput.setAttribute("max", "999.99");
       quantidadeInput.setAttribute("min", "0.01");
       medidaAddon.innerHTML = "kg";
       break;
     case "Un (Unidade)":
       quantidadeInput.setAttribute("type", "number");
       quantidadeInput.setAttribute("step", "1");
-      quantidadeInput.setAttribute("max", "9999");
+      quantidadeInput.setAttribute("max", "999");
       quantidadeInput.setAttribute("min", "1");
       medidaAddon.innerHTML = "Un";
       break;
@@ -53,8 +56,9 @@ function onChangeUnidadeMedida() {
       quantidadeInput.setAttribute("step", "");
       quantidadeInput.setAttribute("max", "");
       quantidadeInput.setAttribute("min", "");
-      medidaAddon.innerHTML ='';
-    }};
+      medidaAddon.innerHTML = '';
+  }
+};
 
 // Função para excluir o produto selecionado do LocalStorage
 function excluirProduto(index) {
@@ -184,7 +188,7 @@ function atualizar(index) {
 
   };
 
-  
+
 
   // Verifica se já há produtos salvos no LocalStorage
   let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
@@ -196,16 +200,25 @@ function atualizar(index) {
   // Salva o array atualizado no LocalStorage
   localStorage.setItem('produtos', JSON.stringify(produtos));
 }
-// acão edite
 $(document).on('click', '.btn-edit', function () {
   editar($(this).data('index'));
+  Swal.fire({
+    title: 'Atenção: você está editando o conteúdo!',
+    icon: 'warning',
+    confirmButtonText: 'OK',
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+  });
 });
-// acão delete mais confimação da ação
+
+// ação delete mais confirmação da ação
 $(document).on('click', '.btn-delete', function () {
   Swal.fire({
     title: 'Deseja realmente excluir o produto?',
     showCancelButton: true,
     confirmButtonText: 'Sim',
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
     cancelButtonText: 'Cancelar'
   }).then((result) => {
     if (result.isConfirmed) {
@@ -214,28 +227,73 @@ $(document).on('click', '.btn-delete', function () {
     }
   });
 });
+
+// ação edit mais confirmação da ação
+$(document).on('click', '.btn-edit-action', function () {
+  Swal.fire({
+    title: 'Deseja realmente editar o produto?',
+    showCancelButton: true,
+    confirmButtonText: 'Sim',
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // código para editar o produto
+      Swal.fire('Produto editado!', '', 'success');
+    }
+  });
+});
+
+
 // Evento disparado ao enviar o formulário
 $(document).on('submit', 'form', (event) => {
   event.preventDefault();
+  // Impede o envio padrão do formulário
+
   // Verifica a validade do produto, se necessário
   const perecivel = document.getElementById('perecivel').checked;
   if (perecivel) {
     const validade = new Date(document.getElementById('validade').value);
     const hoje = new Date();
     if (validade < hoje) {
-      Swal.fire('O produto está vencido!')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Produto fora da validade!',
+        confirmButtonText: 'Ajustar',
+        confirmButtonColor: '#3085d6',
+
+
+      })
       return false;
     }
   }
 
-  // Salva os dados no localStorage
-  if ($('input[name=edit]').length > 0) {
-    atualizar($('input[name=edit]').val());
-  } else {
-    inserir();
-  }
-  carregarProdutos();
-  //exibe a listagem
-  $('#list-action').trigger('click');
+  // Exibe uma caixa de diálogo de confirmação personalizada
+  Swal.fire({
+    title: 'Tem certeza?',
+    text: 'Deseja salvar o produto?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sim, salvar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Se o usuário clicar em "Sim, enviar", envia o formulário
+      event.target.submit();
+      Swal.fire('Produto salvo!', '', 'success');
+      // Salva os dados no localStorage
+      if ($('input[name=edit]').length > 0) {
+        atualizar($('input[name=edit]').val());
+      } else {
+        inserir();
+      }
+      carregarProdutos();
+      // exibe a listagem
+      $('#list-action').trigger('click');
+    }
+  });
 });
-

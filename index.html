@@ -41,7 +41,7 @@
     "form-action" será ocultado. Quando o link "Cadastro" é clicado, o oposto ocorrerá: o elemento com o ID
      "form-action" será exibido e o elemento com o ID "list-action" será ocultado.-->
         <li>
-          <a href="#" id="list-action" class="menu" data-display="list" data-hidden="form">Listagem</a>
+          <a href="#" list class="menu" data-display="list" data-hidden="form">Listagem</a>
         </li>
         <li>
           <a href="#" id="form-action" class="menu" data-display="form" data-hidden="list">Cadastro</a>
@@ -69,8 +69,10 @@
         </div>
       </nav>
       <!-- Conteudo Pagina -->
+
       <div class="row">
         <div id="form" class="col-12 d-none">
+
           <form>
             <div class="form-group">
               <label for="nome">Nome do item:</label>
@@ -136,16 +138,22 @@
               </div>
             </div>
             <button type="submit" class="btn btn-primary">Salvar</button>
-            <button type="reset" id="reset" class="btn btn-default">Limpar</button>
+            <button type="reset" class="menu reset btn btn-outline-primary " data-display="list"
+              data-hidden="form">Cancelar
+            </button>
           </form>
         </div>
         <div id="list" class="col-12">
+          <button type="button" class=" menu btn btn-primary add-new-button" data-display="form"
+            data-hidden="list">Adicionar Produto
+
+          </button>
           <table class="table table-striped">
             <thead>
               <tr>
                 <th>Produto</th>
                 <th>Qtd</th>
-                <th>Medida</th>                
+                <th>Medida</th>
                 <th>Preço</th>
                 <th>Perecível</th>
                 <th>Fabricação</th>
